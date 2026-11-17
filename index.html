@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="日帰り温泉「らく」2店舗のサイト制作の進捗共有（2026-11-17 時点）。">
+<title>らく 2店舗サイト 進捗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
+<style>
+  /* 一本の縦の流れ。左に細い時系列の罫、右に本文。色面は節目だけ。 */
+  :root{
+    --ground:#faf9f5;      /* クリームの地 */
+    --raised:#f2f0e8;      /* 一段上げた面 */
+    --ink:#141413;         /* 墨 */
+    --ink-2:#5f5c54;       /* 薄墨 */
+    --line:#e0ddd1;        /* 罫 */
+    --clay:#d97757;        /* 朱 */
+    --clay-soft:#f6e6de;   /* 朱の面 */
+    --done:#5a7d5a;        /* 済み */
+    --wait:#b08440;        /* 要確認 */
+    --disp:"Noto Serif JP",Georgia,"Hiragino Mincho ProN",serif;
+    --body:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans",sans-serif;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#1a1917; --raised:#232120; --ink:#f3f1ea; --ink-2:#a09b90;
+      --line:#35322e; --clay:#e08d6f; --clay-soft:#3a2b24;
+      --done:#8fb38f; --wait:#d4a860; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#1a1917; --raised:#232120; --ink:#f3f1ea; --ink-2:#a09b90;
+    --line:#35322e; --clay:#e08d6f; --clay-soft:#3a2b24;
+    --done:#8fb38f; --wait:#d4a860; color-scheme:dark;
+  }
+
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:var(--body);font-size:16px;line-height:1.9;
+    font-feature-settings:"palt" 1;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;
+    padding-left:max(16px,env(safe-area-inset-left,0px));
+    padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--disp);font-weight:600;line-height:1.45;margin:0;text-wrap:balance}
+  p{margin:0}
+  a{color:var(--clay)}
+
+  /* 頭 */
+  header.top{border-bottom:1px solid var(--line)}
+  .top .wrap{padding-block:clamp(3rem,8vw,5.5rem) clamp(2rem,5vw,3rem);
+    display:flex;flex-direction:column;gap:1.25rem}
+  .kicker{font-size:.8rem;letter-spacing:.18em;color:var(--ink-2);font-weight:500}
+  h1{font-size:clamp(2rem,6vw,3.1rem);letter-spacing:.01em}
+  .sub{font-size:clamp(1rem,2.4vw,1.15rem);color:var(--ink-2);max-width:34em}
+  .asof{font-size:.85rem;color:var(--ink-2);
+    font-variant-numeric:tabular-nums}
+
+  /* 要点の数字 */
+  .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:1px;background:var(--line);border-block:1px solid var(--line)}
+  .num{background:var(--ground);padding:1.4rem 1.2rem;display:flex;
+    flex-direction:column;gap:.2rem}
+  .num b{font-family:var(--disp);font-size:clamp(1.6rem,4.5vw,2.2rem);
+    font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+  .num span{font-size:.82rem;color:var(--ink-2);line-height:1.6}
+
+  /* 節 */
+  section{border-bottom:1px solid var(--line)}
+  section > .wrap{padding-block:clamp(2.5rem,6vw,4rem)}
+  h2{font-size:clamp(1.35rem,3.4vw,1.8rem);margin-bottom:.5rem}
+  .lede{color:var(--ink-2);max-width:40em;margin-bottom:2rem}
+
+  /* 2店 */
+  .stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+  .store{border:1px solid var(--line);padding:1.5rem;display:flex;
+    flex-direction:column;gap:.9rem;min-width:0;background:var(--raised)}
+  .store h3{font-size:1.15rem}
+  .tag{align-self:flex-start;font-size:.75rem;letter-spacing:.08em;
+    padding:.2rem .6rem;border:1px solid currentColor;line-height:1.7}
+  .tag.open{color:var(--done)} .tag.pre{color:var(--wait)}
+  .store dl{margin:0;display:grid;grid-template-columns:auto 1fr;
+    gap:.35rem .9rem;font-size:.9rem}
+  .store dt{color:var(--ink-2);white-space:nowrap}
+  .store dd{margin:0;min-width:0}
+
+  /* ページ一覧 */
+  .pages{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+  .pg{font-size:.82rem;border:1px solid var(--line);padding:.15rem .6rem;
+    background:var(--ground);line-height:1.8}
+  .pg.new{border-color:var(--clay);color:var(--clay)}
+
+  /* できたこと（時系列の罫） */
+  ol.feed{list-style:none;margin:0;padding:0 0 0 1.6rem;
+    border-left:1px solid var(--line);display:flex;flex-direction:column;gap:1.6rem}
+  ol.feed li{position:relative;min-width:0}
+  ol.feed li::before{content:"";position:absolute;left:calc(-1.6rem - 4px);top:.75rem;
+    width:7px;height:7px;background:var(--clay);border-radius:50%}
+  ol.feed h3{font-size:1.02rem;margin-bottom:.25rem}
+  ol.feed p{color:var(--ink-2);font-size:.94rem}
+
+  /* 画像の扱い */
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .scroller{overflow-x:auto}
+  th,td{text-align:left;padding:.75rem .8rem;border-bottom:1px solid var(--line);
+    vertical-align:top}
+  th{font-weight:500;color:var(--ink-2);font-size:.82rem;letter-spacing:.06em;
+    white-space:nowrap}
+  td code{font-size:.85em;color:var(--ink-2)}
+
+  /* 残り */
+  .todo{display:flex;flex-direction:column;gap:0}
+  .todo .row{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;
+    padding:1.1rem 0;border-bottom:1px solid var(--line);align-items:start}
+  .todo .row:last-child{border-bottom:0}
+  .who{font-size:.78rem;letter-spacing:.06em;padding:.15rem .5rem;
+    justify-self:start;line-height:1.8;border:1px solid currentColor}
+  .who.them{color:var(--clay)} .who.us{color:var(--ink-2)} .who.ask{color:var(--wait)}
+  .todo p{min-width:0}
+  .todo .why{color:var(--ink-2);font-size:.88rem;margin-top:.15rem}
+
+  /* 締め */
+  .close{background:var(--clay-soft);border-bottom:0}
+  .close .wrap{padding-block:clamp(2.5rem,6vw,4rem)}
+  .close h2{margin-bottom:1rem}
+  .close ol{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:.6rem}
+  footer .wrap{padding-block:2rem 3rem;color:var(--ink-2);font-size:.82rem;
+    display:flex;flex-direction:column;gap:.3rem}
+  @media (max-width:560px){
+    .todo .row{grid-template-columns:1fr;gap:.4rem}
+  }
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">Ligula &times; 日帰り温泉「らく」</p>
+    <h1>2店舗のサイトを、<br>ひとつの土台で作っています。</h1>
+    <p class="sub">湘南台店（営業中）と相模大野店（2027年春 開業予定）。文章も料金も1か所の台帳から出ているので、片方を直すともう片方とずれる、が起きません。</p>
+    <p class="asof">2026-11-17 時点</p>
+  </div>
+</header>
+
+<div class="nums">
+  <div class="num"><b>2</b><span>店舗</span></div>
+  <div class="num"><b>32</b><span>ページ（日本語16・英語12・個別4）</span></div>
+  <div class="num"><b>55</b><span>秒の運び湯の動画</span></div>
+  <div class="num"><b>1</b><span>つの管理画面</span></div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>2つの店</h2>
+    <p class="lede">同じ構成・同じ部品で作り、中身だけを店ごとの台帳から差し替えています。開業前と営業中で、出す情報が自動で切り替わります。</p>
+    <div class="stores">
+      <article class="store">
+        <span class="tag open">営業中</span>
+        <h3>湘南台店</h3>
+        <dl>
+          <dt>営業</dt><dd>10:00〜翌10:00（第3月曜 休館）</dd>
+          <dt>最寄り</dt><dd>湘南台駅 西口 徒歩2分</dd>
+          <dt>駐車場</dt><dd>250台・最大8時間無料</dd>
+        </dl>
+        <div class="pages">
+          <span class="pg">トップ</span><span class="pg">日帰り</span><span class="pg">泊まる</span>
+          <span class="pg">サウナ</span><span class="pg">料金</span><span class="pg">湯の道</span>
+          <span class="pg">館内</span><span class="pg new">食事</span><span class="pg new">和路</span>
+          <span class="pg">行き方</span><span class="pg">English 6</span>
+        </div>
+      </article>
+      <article class="store">
+        <span class="tag pre">2027年春 開業予定</span>
+        <h3>相模大野店</h3>
+        <dl>
+          <dt>場所</dt><dd>小田急 相模大野駅のそば</dd>
+          <dt>いま出す物</dt><dd>開業のお知らせ登録</dd>
+          <dt>画像</dt><dd>完成予想図（イメージ写真と明記）</dd>
+        </dl>
+        <div class="pages">
+          <span class="pg">トップ</span><span class="pg">日帰り</span><span class="pg">泊まる</span>
+          <span class="pg">サウナ</span><span class="pg">料金</span><span class="pg">湯の道</span>
+          <span class="pg">館内</span><span class="pg">よくあるご質問</span>
+          <span class="pg">行き方</span><span class="pg">English 6</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>できていること</h2>
+    <p class="lede">この1週間で入ったものを、新しい順に。</p>
+    <ol class="feed">
+      <li>
+        <h3>湘南台を「営業中の店」として扱うようにした</h3>
+        <p>相模大野向けに書いた文言が湘南台にも出ていたのを、全部やめました。開業前にだけ出る「お知らせ登録」も、営業中の店には出ません。店名・駅名・営業時間は台帳から出ます。</p>
+      </li>
+      <li>
+        <h3>館内・食事・リラクゼーションを、湘南台の中身で書いた</h3>
+        <p>屋上の露天3つとサウナ、3階の大浴場（間口7m・深さ90cm）、2階のマンガ2万冊のラウンジ、1階の受付と食事処。百年ダイニングと和路のページも新しく作りました。</p>
+      </li>
+      <li>
+        <h3>24時間営業を前に出した</h3>
+        <p>10:00から翌10:00まで。終電を逃しても、朝風呂だけでも入れることを、トップと料金と行き方で書いています。</p>
+      </li>
+      <li>
+        <h3>2店を行き来できるようにした</h3>
+        <p>全ページの下に、もう一軒への案内を置きました。相模大野から湘南台へ、湘南台から相模大野へ。キャラクターの「らくすけ」もここに出ます。</p>
+      </li>
+      <li>
+        <h3>運び湯の動画（55秒）</h3>
+        <p>奥湯河原の源泉から、山を越えて、湯船まで。店名を入れていないので2店どちらでも使えます。</p>
+      </li>
+      <li>
+        <h3>管理画面</h3>
+        <p>ブラウザだけで動きます。料金・お知らせ・バナー・ページの文章を直して保存すると、サイトが自動で作り直されます。料金は1か所にしか書いていないので、表と帯と英語ページがずれません。</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>写真と絵の扱い</h2>
+    <p class="lede">来たお客さまの記憶とずれないことを、いちばんの基準にしています。3種類を必ず見分けられるように書き分けます。</p>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>種類</th><th>何に使うか</th><th>ページでの書き方</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>実写</td>
+            <td>湘南台店の館内、奥湯河原の源泉と運搬</td>
+            <td><code>写真：3階 大浴場</code></td>
+          </tr>
+          <tr>
+            <td>イラスト</td>
+            <td>石肌・蒸気・湯の面など、場所を名乗らない素材</td>
+            <td><code>イラスト：湯の面</code></td>
+          </tr>
+          <tr>
+            <td>完成予想図</td>
+            <td>相模大野店（まだ建っていないため）</td>
+            <td><code>イメージ写真／実際のものとは異なります</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:1.5rem;margin-bottom:0">営業中の湘南台店では、浴室や外観そのものを作った絵は使いません。行けば本物が見られる場所なので、素材のイラストにとどめています。</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>残っていること</h2>
+    <p class="lede">公開までに埋めるもの。いただきたいものと、こちらで進めるものに分けています。</p>
+    <div class="todo">
+      <div class="row">
+        <span class="who them">ご提供</span>
+        <div>
+          <p>施設写真の原本（大浴場・屋上の露天・サウナ・外観）</p>
+          <p class="why">いま手元にあるのは最大660px で、大きく使えません。撮り直しのご提案も用意しています。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who them">ご提供</span>
+        <div>
+          <p>お食事の写真</p>
+          <p class="why">いまは300×220。お品書きが確定してからの撮影でも構いません。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who ask">要確認</span>
+        <div>
+          <p>湘南台店の精算のしかた</p>
+          <p class="why">12の手順のうち、最後の2つが相模大野の想定のままです。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who ask">要確認</span>
+        <div>
+          <p>百年ダイニングのお品書きと価格、和路のメニュー</p>
+          <p class="why">現サイトの表記のまま載せており、ページ上に「要確認」と書いています。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who ask">要確認</span>
+        <div>
+          <p>相模大野店の料金・住所・電話・開業日・サウナの温度</p>
+          <p class="why">いまは湘南台の数字を仮に置いています。決まり次第、台帳の差し替えだけで入ります。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who us">Ligula</span>
+        <div>
+          <p>相模大野店のロゴ</p>
+          <p class="why">湘南台と同じ書家・同じ並びで制作を依頼します。</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="who us">Ligula</span>
+        <div>
+          <p>公開先のドメインの決定</p>
+          <p class="why">2店を1つのドメインに寄せるかどうか。判断の期限は 2027-01-31 です。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2>次の3つ</h2>
+    <ol>
+      <li>施設写真の原本をお願いする（一覧は用意済み）</li>
+      <li>要確認の4件に回答をいただく</li>
+      <li>公開先を決めて、湘南台から先に切り替える</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>株式会社Ligula ／ 日帰り温泉「らく」サイト制作</p>
+    <p>この資料は進捗の共有用です。掲載の数字と文言は 2026-11-17 時点のもので、確定前のものを含みます。</p>
+  </div>
+</footer>
+</body>
+</html>

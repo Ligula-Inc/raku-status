@@ -73,6 +73,19 @@
   h2{font-size:clamp(1.35rem,3.4vw,1.8rem);margin-bottom:.5rem}
   .lede{color:var(--ink-2);max-width:40em;margin-bottom:2rem}
 
+  /* サイトへの入口 */
+  .visit{background:var(--ink)}
+  .visit .wrap{padding-block:clamp(2rem,4.5vw,3rem)}
+  .visit h2{color:var(--ground);font-size:clamp(1.2rem,3vw,1.5rem);margin-bottom:.4rem}
+  .visit p.note{color:#a09b90;font-size:.9rem;margin-bottom:1.5rem;max-width:40em}
+  .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+  .door{display:flex;flex-direction:column;gap:.35rem;text-decoration:none;
+    border:1px solid #4a443d;padding:1.2rem 1.35rem;color:var(--ground);min-width:0}
+  .door:hover{border-color:var(--clay);background:#232120}
+  .door .n{font-family:var(--disp);font-size:1.25rem;font-weight:600}
+  .door .s{font-size:.85rem;color:#a09b90}
+  .door .go{font-size:.85rem;color:var(--clay);margin-top:.35rem}
+
   /* 2店 */
   .stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
   .store{border:1px solid var(--line);padding:1.5rem;display:flex;
@@ -150,6 +163,25 @@
   <div class="num"><b>55</b><span>秒の運び湯の動画</span></div>
   <div class="num"><b>1</b><span>つの管理画面</span></div>
 </div>
+
+<section class="visit">
+  <div class="wrap">
+    <h2>サイトを見る</h2>
+    <p class="note">制作中のたたき台です。料金・写真・文言はまだ確定していません。どの画面も、そのまま触って動きます。</p>
+    <div class="doors">
+      <a class="door" href="https://ligula-inc.github.io/raku-status/shonandai/">
+        <span class="n">湘南台店</span>
+        <span class="s">営業中・24時間／10ページ＋英語6</span>
+        <span class="go">開く →</span>
+      </a>
+      <a class="door" href="https://ligula-inc.github.io/raku-status/sagamiono/">
+        <span class="n">相模大野店</span>
+        <span class="s">2027年春 開業予定／9ページ＋英語6</span>
+        <span class="go">開く →</span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
